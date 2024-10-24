@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+        .positive {
+            color: green;
+        }
+        .negative {
+            color: red;
+        }
+        .neutral {
+            color: gray;
+        }
+        </style>
+        <title>{{ title }} Sentiment Analysis</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <h1>Amazon Cell Phone Sentiment Analysis</h1>
+        <form method="POST">
+            <textarea name="text1" placeholder="Type your Review Here: ...." rows="10" cols="109"></textarea><br><br>
+            <input class="example_a" type="submit">
+        </form>
+
+        {% if final %}
+        <div>
+            <h2>Score table</h2>
+            <table style="width:100%">
+                <tr>
+                    <th>Sentiment</th>
+                    <th>Score</th> 
+                </tr>
+                <tr>
+                    <td>Positive</td>
+                    <td>{{text2}}</td>
+                </tr>
+                <tr>
+                    <td>Neutral</td>
+                    <td>{{text3}}</td>
+                </tr>
+                <tr>
+                    <td>Negative</td>
+                    <td>{{text5}}</td>
+                </tr>
+                <tr>
+                    <td>Compound</td>
+                    <td>{{text4}}</td>
+                </tr>
+
+                <!-- Logic to highlight the sentiment with max score -->
+                {% set max_sentiment = 'Positive' if text2 > text3 and text2 > text5 else ('Neutral' if text3 > text5 else 'Negative') %}
+                <tr>
+                    <td colspan="2" class="{{ 'positive' if max_sentiment == 'Positive' else ('negative' if max_sentiment == 'Negative' else 'neutral') }}">
+                        Max Sentiment: {{ max_sentiment }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        {% else %}
+        <p></p>
+        {% endif %}
+    </body>
+</html>
